@@ -9,6 +9,7 @@
 
 
 # K3D
+Orquestrador de containers (k8s)
 
 k3d cluster create nome_cluster
 opções [--servers (qtde de servers)
@@ -19,7 +20,6 @@ opções [--servers (qtde de servers)
   docker container ls
 
 k3d cluster delete nome_cluster
-
 
 kubectl api-resources
 
@@ -58,6 +58,55 @@ Fazendo bind de porta do k3d para ser usado no services.
 Com isso vc define no service.yaml a nodePort com o valor 30000
 - k3d cluster create meucluster --servers 1 --agents: 2 -p "8080:30000@loadbalancer"
 
-
-
 kubectl get all
+
+# Prometheus
+Métricas e Monitoramento
+
+TSDB - Time Series DataBase
+  Adapters permite armazenar os dados em outros sistemas de armazenamento
+
+- Retriveal: Coleta de dados
+  Coleta passiva, onde o Prometheus coleta a métrica da aplicação através de um endpoint na aplicação.
+  Aplicação pode expor os dados para coleta usando libs como OpenTelemetry (Jobs)
+  Suporte nativos como Grafana, Docker, K8s
+  Sem suporte nativo, como jenkins, mysql, podem usar exporters (doc do prometheus)
+  Processo de curta duração (batches) pode-se usar o Push Gateway
+  Service Discovey para métricas dinâmicas
+
+- Viewer: Consulta de métricas
+  Terminal web do Prometheus
+  Graphana
+
+- Alerts: Alarmes
+  Alert Manager recebe os alertas e envia para os canais listeneres (slack,teams...)
+
+- Metric Server: Coleta e exibe as máetricas para o Prometheus
+  Como saber se tem o Metric Server em execução no custer do k8s:
+  kubectl top pods|nodes
+
+## Instalando Graphana e Prometheus no k8s
+
+- Instalar o Helm
+  Acessar a página na internet helm.sh > Introdução > Instalação
+
+- Recriar o Cluster no K8s com Port Bind para as portas do Promethues e Graphana
+  k3d cluster delete nome_cluster
+  k3d cluster create nome_custer --servers 1 --agents 2 -p "8080:30000@loadbalancer" -p "8181:30001@loadbalancer"  -p "8282:30002@loadbalancer"
+  
+kubectl get nodes
+docker container ls
+
+:: subir o mongo e a aplicação
+kubectl apply -f k8s/mongo/
+kubectl apply -f k8s/api/
+kubectl get pods
+
+:: Instalar o Prometheus
+- Acessar a página de reposítórios Helm https://artifacthub.io/ (repositório do chart)
+- Adicionar o repositório
+  helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+  helm repo update
+  helm repo list
+- Instalar o chart
+  helm show values prometheus-community/prometheus > prometheus-values.yaml
