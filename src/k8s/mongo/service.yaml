@@ -1,0 +1,11 @@
+﻿apiVersion: v1
+kind: service
+metadata:
+  name: mondodb-service
+spec:
+  selector:
+    app: mondodb
+  ports:
+    - port: 27017
+      targetPort: 27017
+  type: ClusterIP # padrão, não precisa colocar
