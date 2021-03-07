@@ -110,3 +110,15 @@ kubectl get pods
   helm repo list
 - Instalar o chart
   helm show values prometheus-community/prometheus > prometheus-values.yaml
+  
+  helm install prometheus prometheus-community/prometheus --values Prometheus/values.yaml
+  helm list
+  kubectl get services
+  http://localhost:8181
+  http://localhost:8080/metrics
+  Incluir annotations no deployment da aplicação, conforme mostrado no site do Prometheus
+
+
+Vamos gerar dados para as métricas
+
+while true; do curl http://localhost:8080/api/produto; sleep 0.5; done
