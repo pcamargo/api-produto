@@ -76,7 +76,7 @@ TSDB - Time Series DataBase
 
 - Viewer: Consulta de métricas
   Terminal web do Prometheus
-  Graphana
+  Grafana
 
 - Alerts: Alarmes
   Alert Manager recebe os alertas e envia para os canais listeneres (slack,teams...)
@@ -85,12 +85,12 @@ TSDB - Time Series DataBase
   Como saber se tem o Metric Server em execução no custer do k8s:
   kubectl top pods|nodes
 
-## Instalando Graphana e Prometheus no k8s
+## Instalando Grafana e Prometheus no k8s
 
 - Instalar o Helm
   Acessar a página na internet helm.sh > Introdução > Instalação
 
-- Recriar o Cluster no K8s com Port Bind para as portas do Promethues e Graphana
+- Recriar o Cluster no K8s com Port Bind para as portas do Promethues e Grafana
   k3d cluster delete nome_cluster
   k3d cluster create nome_custer --servers 1 --agents 2 -p "8080:30000@loadbalancer" -p "8181:30001@loadbalancer"  -p "8282:30002@loadbalancer"
   
@@ -122,3 +122,17 @@ kubectl get pods
 Vamos gerar dados para as métricas
 
 while true; do curl http://localhost:8080/api/produto; sleep 0.5; done
+
+Importar dados para o Grafana
+https://grafana.com/grafana/dashboards
+Filtrar Datasource > Prometheus
+Grafana > import from grafana.com
+
+
+
+## References
+https://kubedev.club.hotmart.com/lesson
+
+https://www.magalix.com/blog/create-a-ci/cd-pipeline-with-kubernetes-and-jenkins
+https://youtu.be/5unI7VPnASM
+https://youtu.be/kfCe8TmOmxI
