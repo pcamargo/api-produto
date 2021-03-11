@@ -123,12 +123,25 @@ Vamos gerar dados para as métricas
 
 while true; do curl http://localhost:8080/api/produto; sleep 0.5; done
 
+
+:: Instalar o Grafana
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm repo list
+helm show values grafana/grafana > grafana.yaml
+helm install grafana grafana/grafana --values Grafana/values.yaml
+
+http://localhost:8282
+admin:123456
+
+Adicionar Datasource
+  Prometheus
+  URL: http://prometheus-server (service promethues do k8s)
+
 Importar dados para o Grafana
 https://grafana.com/grafana/dashboards
 Filtrar Datasource > Prometheus
 Grafana > import from grafana.com
-
-
 
 ## References
 https://kubedev.club.hotmart.com/lesson
@@ -136,3 +149,5 @@ https://kubedev.club.hotmart.com/lesson
 https://www.magalix.com/blog/create-a-ci/cd-pipeline-with-kubernetes-and-jenkins
 https://youtu.be/5unI7VPnASM
 https://youtu.be/kfCe8TmOmxI
+
+
