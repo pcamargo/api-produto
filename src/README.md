@@ -43,6 +43,7 @@ kubectl apply -f deploy.yaml
 kubectl get deployment
 kubectl get replicaset
 kubectl get pods
+kubectl get events
 
 :: service
 - tipos de services:
@@ -92,7 +93,7 @@ TSDB - Time Series DataBase
 
 - Recriar o Cluster no K8s com Port Bind para as portas do Promethues e Grafana
   k3d cluster delete nome_cluster
-  k3d cluster create nome_custer --servers 1 --agents 2 -p "8080:30000@loadbalancer" -p "8181:30001@loadbalancer"  -p "8282:30002@loadbalancer"
+  k3d cluster create nome_custer --servers 1 --agents 2 -p "8080:30000@loadbalancer" -p "8181:30001@loadbalancer" -p "8282:30002@loadbalancer"
   
 kubectl get nodes
 docker container ls
@@ -127,7 +128,6 @@ Importar dados para o Grafana
 https://grafana.com/grafana/dashboards
 Filtrar Datasource > Prometheus
 Grafana > import from grafana.com
-
 
 
 ## References
